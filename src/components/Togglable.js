@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-const Togglable = (props) => {
+const Togglable = forwardRef( (props, ref) => {
 
     // state yang digunakan hanyalah variable visible dengan nilai boolean untuk di toggle
     const [visible, setVisible] = useState(false)
@@ -9,10 +9,15 @@ const Togglable = (props) => {
     const hideWhenVisible = {display: visible ? 'none' : ''}
     const showWhenVisible = {display: visible ? '' : 'none'}
 
-    // tiap kali di klik maka state akan berubah menjadi kebalikan dari state yang sedang berjalan
     const toggleVisibility = () => {
         setVisible(!visible)
     }
+
+    useImperativeHandle(ref, () => {
+        return {
+            toggleVisibility
+        }
+    })
 
     return (
         <div>
@@ -27,7 +32,7 @@ const Togglable = (props) => {
             </div>
         </div>
     )
-}
+})
 
 
 export default Togglable
