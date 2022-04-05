@@ -77,6 +77,11 @@ const App = () => {
   }
 
   const addNote = (noteObject) => {
+    
+    // menggunakan fungsi toggle yang ada dalam komponen lain
+    // tiap kali note baru dibuat maka formnya akan langsung disembunyikan
+    noteFormRef.current.toggleVisibility()
+    
     noteService
       .create(noteObject)
       .then(returnedNote => {
@@ -84,16 +89,17 @@ const App = () => {
       })
   }
 
-  const notesToShow = showAll
-    ? notes
-    : notes.filter(note => note.important)
+  const notesToShow = showAll ? notes : notes.filter(note => note.important)
 
+  const noteFormRef = useRef()
 
   const noteForm = () => (
-    <Togglable buttonLabel="new note">
+    // implementasi penggunaan ref
+    <Togglable buttonLabel="new note" ref={noteFormRef}>
       <NoteForm createNote={addNote} />
     </Togglable>
   )
+  
   
   const loginForm = () => (
     <Togglable buttonLabel='login'>
